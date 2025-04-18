@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from backend.routes.item_routes import item_bp
 from backend.routes.user_routes import user_bp
-from backend.routes.auth_routes import auth_bp
 from flask_jwt_extended import JWTManager
 from backend.config import Config
 from flask_migrate import Migrate
@@ -21,7 +21,7 @@ def create_app():
     migrate.init_app(app, db)
 
     app.register_blueprint(user_bp, url_prefix='/api/v1/user')
-    app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
+    app.register_blueprint(item_bp, url_prefix='/api/v1/item')
 
     # Create tables on app startup if they don't exist
     with app.app_context():

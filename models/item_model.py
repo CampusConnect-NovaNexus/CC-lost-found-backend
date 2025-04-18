@@ -1,0 +1,24 @@
+import uuid
+from backend import db
+
+class Item:
+    __tablename__ = 'items'
+    _id = db.Column(primary_key=True, default=lambda:str(uuid.uuid4()))
+    item_title = db.Column(db.String(80), unique=True, nullable=False)
+    item_description = db.Column(db.String(200), nullable=False)
+    item_image = db.Column(db.String(200), nullable=True)
+
+    def __init__(self, item_title, item_description, item_image=None):
+        self.item_title = item_title
+        self.item_description = item_description
+        self.item_image = item_image
+
+    def json(self):
+        return {
+            "id": self._id,
+            "item_title": self.item_title,
+            "item_description": self.item_description,
+            "item_image": self.item_image
+        }
+
+

@@ -1,5 +1,5 @@
-import uuid
 from backend import db
+import uuid
 
 class Users(db.Model):
     __tablename__ = 'users'  # Explicitly specify the table name
@@ -13,3 +13,11 @@ class Users(db.Model):
         self.username = username
         self.email = email
         self.password = password
+
+    def json(self):
+        return {
+            "id": self._id,
+            "username": self.username,
+            "email": self.email,
+        }
+
