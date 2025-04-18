@@ -9,6 +9,6 @@ def get_user_list_view():
 
 @user_bp.route('/<int:user_id>', methods=['GET'])
 def get_user_view(user_id):
-    if (not user_id):
+    if not user_id:
         return {'error': 'No user ID provided'}, 400
     return get_user(user_id)
