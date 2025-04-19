@@ -5,7 +5,7 @@ from backend.models.item_model import Item
 def get_all_items():
     try:
         items = db.session.query(Item).all()
-        return jsonify([item.to_dict() for item in items]), 200
+        return jsonify([item.json() for item in items]), 200
     except Exception as e:
         db.session.rollback()
         error = str(e.__dict__['orig']) if hasattr(e, '__dict__') and 'orig' in e.__dict__ else str(e)

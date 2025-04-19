@@ -1,9 +1,9 @@
 import uuid
 from backend import db
 
-class Item:
+class Item(db.Model):
     __tablename__ = 'items'
-    _id = db.Column(primary_key=True, default=lambda:str(uuid.uuid4()))
+    _id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     item_title = db.Column(db.String(80), unique=True, nullable=False)
     item_description = db.Column(db.String(200), nullable=False)
     item_image = db.Column(db.String(200), nullable=True)
