@@ -1,6 +1,6 @@
 from flask import jsonify, session
-from backend import db
-from backend.models.item_model import Item
+from __init__ import db
+from models.item_model import Item
 
 def get_all_items():
     try:

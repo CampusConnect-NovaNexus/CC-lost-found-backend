@@ -1,4 +1,4 @@
-from backend import db
+from __init__ import db
 import uuid
 
 class Users(db.Model):

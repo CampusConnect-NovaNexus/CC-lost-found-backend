@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from backend.config import Config
+from config import *
 from flask_migrate import Migrate
 from flask_cors import CORS
 
@@ -20,13 +20,13 @@ def create_app():
     db.init_app(app)
     
     # Import models to ensure they are registered with SQLAlchemy
-    from backend.models.user_model import Users
-    from backend.models.item_model import Item
+    from models.user_model import Users
+    from models.item_model import Item
     
     # Import and register blueprints
-    from backend.routes.item_routes import item_bp
-    from backend.routes.user_routes import user_bp
-    from backend.routes.auth_routes import auth_bp
+    from routes.item_routes import item_bp
+    from routes.user_routes import user_bp
+    from routes.auth_routes import auth_bp
 
     migrate.init_app(app, db)
 

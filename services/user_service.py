@@ -1,8 +1,8 @@
 from flask import jsonify, current_app
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
-from backend.models.user_model import Users
-from backend import db
+from models.user_model import Users
+from __init__ import db
 import traceback
 
 def get_user(user_id):

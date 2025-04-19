@@ -1,5 +1,5 @@
 import uuid
-from backend import db
+from __init__ import db
 
 class Item(db.Model):
     __tablename__ = 'items'
