@@ -7,6 +7,7 @@ class Item(db.Model):
     item_title = db.Column(db.String(80), unique=True, nullable=False)
     item_description = db.Column(db.String(200), nullable=False)
     item_image = db.Column(db.String(200), nullable=True)
+    item_category = db.Column(db.Enum('LOST', 'FOUND', name='item_category'), nullable=False)
 
     def __init__(self, item_title, item_description, item_image=None):
         self.item_title = item_title

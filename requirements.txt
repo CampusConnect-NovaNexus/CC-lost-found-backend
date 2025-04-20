@@ -5,3 +5,8 @@ marshmallow==4.0.0
 psycopg2-binary==2.9.10
 python-dotenv==1.1.0
 SQLAlchemy==2.0.40
+langchain-mistralai
+langchain 
+langchain-community 
+upstash-vector
+waitress

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from config import *
+from config import Config
 from flask_migrate import Migrate
 from flask_cors import CORS
 
@@ -27,12 +27,14 @@ def create_app():
     from routes.item_routes import item_bp
     from routes.user_routes import user_bp
     from routes.auth_routes import auth_bp
+    from routes.ai_routes import ai_routes_bp
 
     migrate.init_app(app, db)
 
     app.register_blueprint(user_bp, url_prefix='/api/v1/user')
     app.register_blueprint(item_bp, url_prefix='/api/v1/item')
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
+    app.register_blueprint(ai_routes_bp, url_prefix='/api/v1/ai')
 
     # Create tables on app startup if they don't exist
     with app.app_context():
