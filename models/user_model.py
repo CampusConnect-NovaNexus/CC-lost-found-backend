@@ -8,6 +8,8 @@ class Users(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     isVerified = db.Column(db.Boolean, default=False)
+    
+    items = db.relationship('Item', backref='owner', lazy=True)
 
     def __init__(self, username, email, password):
         self.username = username
