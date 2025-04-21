@@ -253,7 +253,8 @@ Authorization: Bearer <access_token>
   {
     "title": "string",
     "description": "string",
-    "image": "string (optional)"
+    "image": "string (optional)",
+    "item_category": "string (LOST || FOUND)"
   }
   ```
 - **Response**:

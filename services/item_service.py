@@ -39,9 +39,10 @@ def create_item(data):
     description = data.get('description')
     image = data.get('image')
     user_id = data.get('user_id')
+    item_category = data.get('item_category')
 
     try:
-        new_item = Item(item_title=title, item_description=description, user_id=user_id, item_image=image)
+        new_item = Item(item_title=title, item_description=description, user_id=user_id, item_image=image, item_category=item_category)
         db.session.add(new_item)
         db.session.commit()
         return {"status": "Item created successfully", "item_id": new_item._id}, 201
