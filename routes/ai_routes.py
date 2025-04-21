@@ -1,5 +1,5 @@
 from flask import Blueprint
-from services.ai_services import *
+from ..services.ai_services import *
 
 # Create a Blueprint
 ai_routes_bp = Blueprint('ai_routes', __name__)

@@ -2,7 +2,7 @@ from flask import jsonify, current_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 
-from models.user_model import Users
+from ..models.user_model import Users
 import traceback
 
 def login_user(data):

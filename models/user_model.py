@@ -1,4 +1,4 @@
-from __init__ import db
+from .. import db
 import uuid
 
 class Users(db.Model):

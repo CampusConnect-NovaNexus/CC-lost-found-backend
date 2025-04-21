@@ -1,6 +1,6 @@
 from flask import jsonify, session
-from __init__ import db
-from models.item_model import Item
+from .. import db
+from ..models.item_model import Item
 from sqlalchemy.orm import joinedload
 
 def get_all_items():
