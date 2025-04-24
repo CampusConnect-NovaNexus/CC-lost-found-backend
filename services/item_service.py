@@ -2,6 +2,7 @@ from flask import jsonify, session
 from .. import db
 from ..models.item_model import Item
 from sqlalchemy.orm import joinedload
+from ..services.image_upload_service import image_upload
 
 def get_all_items():
     try:
@@ -37,15 +38,30 @@ def get_multiple_items(item_ids):
 def create_item(data):
     title = data.get('title')
     description = data.get('description')
-    image = data.get('image')
+    image_file = data.get('image_file')  # This should be the file object from request.files
     user_id = data.get('user_id')
     item_category = data.get('item_category')
-
+    
+    image_url = None
+    # Handle image upload if image file is provided
+    if image_file:
+        filename = f"{user_id}_{title}_{image_file.filename}"
+        upload_response = image_upload(image_file, filename)
+        if upload_response:
+            # Extract the URL from the ImageKit response
+            image_url = upload_response.get('url')
+    
     try:
-        new_item = Item(item_title=title, item_description=description, user_id=user_id, item_image=image, item_category=item_category)
+        new_item = Item(
+            item_title=title, 
+            item_description=description, 
+            user_id=user_id, 
+            item_image=image_url,  # Store the image URL from upload
+            item_category=item_category
+        )
         db.session.add(new_item)
         db.session.commit()
-        return {"status": "Item created successfully", "item_id": new_item._id}, 201
+        return {"status": "Item created successfully", "item_id": new_item._id, "image_url": image_url}, 201
     except Exception as e:
         db.session.rollback()
         error = str(e.__dict__['orig']) if hasattr(e, '__dict__') and 'orig' in e.__dict__ else str(e)

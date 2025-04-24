@@ -17,7 +17,19 @@ def get_multiple_items_view():
 
 @item_bp.route('/create', methods=['POST'])
 def create_item_view():
-    data = request.get_json()
+    if request.content_type and 'multipart/form-data' in request.content_type:
+        data = {
+            'title': request.form.get('title'),
+            'description': request.form.get('description'),
+            'user_id': request.form.get('user_id'),
+            'item_category': request.form.get('item_category'),
+            'image_file': request.files.get('image_file') if 'image_file' in request.files else None
+        }
+
+        print("Data from form:", data)
+    else:
+        data = request.get_json()
+        
     return create_item(data)
 
 @item_bp.route('/update', methods=['POST'])

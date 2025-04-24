@@ -28,6 +28,7 @@ def create_app():
     from .routes.user_routes import user_bp
     from .routes.auth_routes import auth_bp
     from .routes.ai_routes import ai_routes_bp
+    from .routes.image_upload_routes import image_upload_bp
 
     migrate.init_app(app, db)
 
@@ -35,6 +36,7 @@ def create_app():
     app.register_blueprint(item_bp, url_prefix='/api/v1/item')
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(ai_routes_bp, url_prefix='/api/v1/ai')
+    app.register_blueprint(image_upload_bp, url_prefix='/api/v1/upload')
 
     # Create tables on app startup if they don't exist
     with app.app_context():
