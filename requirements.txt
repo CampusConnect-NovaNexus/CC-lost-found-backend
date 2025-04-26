@@ -10,3 +10,8 @@ langchain
 langchain-community 
 upstash-vector
 waitress
+flask-migrate
+PyJWT
+Flask-Cors
+grpcio
+grpcio-tools
