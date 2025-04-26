@@ -1,25 +1,32 @@
 from flask import g, Blueprint, request
 from ..services.item_service import *
-from ..grpc.grpc_fns import validate_token
+from ..grpc_client.grpc_fns import validate_token
 import jwt
 
 item_bp = Blueprint('item', __name__)
 
-# @item_bp.before_request
-# def before_request():
-#     authorization = request.headers.get('authorization')
-#     if not authorization:
-#         return {"error": "Unauthorized"}, 401
-#     token = authorization.split(" ")[1]
-#     if not token:
-#         return {"error": "Unauthorized"}, 401
-#     if (validate_token(token) == False):
-#         return {"error": "Unauthorized"}, 401
-#     payload = jwt.decode(token, options={"verify_signature": False})
-#     if not payload:
-#         return {"error": "Unauthorized"}, 401
-#     g.user_id = payload.get('userId')
-#     g.email_id = payload.get('userEmail')
+@item_bp.before_request
+def before_request():
+    authorization = request.headers.get('authorization')
+    if not authorization:
+        return {"error": "Unauthorized"}, 401
+    token = authorization.split(" ")[1]
+    if not token:
+        return {"error": "Unauthorized"}, 401
+    try:
+        is_valid = validate_token(token)
+        print("Token validation result:", is_valid)
+        if not is_valid:
+            return {"error": "Invalid token"}, 401
+    except Exception as e:
+        print("Error validating token:", e)
+        return {"error": "Error validating token"}, 401
+    
+    payload = jwt.decode(token, options={"verify_signature": False})
+    if not payload:
+        return {"error": "Unauthorized"}, 401
+    g.user_id = payload.get('userId')
+    g.email_id = payload.get('userEmail')
 
 @item_bp.route('/', methods=['GET'])
 def get_item_list_view():

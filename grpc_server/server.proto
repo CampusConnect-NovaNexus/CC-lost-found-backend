@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+message GenerateTokenRequest {
+  string user_id = 1;
+}
+
+message EmptyRequest {}
+
+message Item {
+  string id = 1;
+  string item_category = 2;
+  string item_description = 3;
+  optional string item_image = 4;
+  string item_title = 5;
+  string user_id = 6;
+}
+
+message Items {
+  repeated Item items = 1;
+}
+
+message sucessResponse {
+  bool isSuceeded = 1;
+}
+
+message CreateItemRequest {
+  string item_category = 1;
+  string item_description = 2;
+  optional string item_image = 3;
+  string item_title = 4;
+  string user_id = 5;
+}
+
+message UpdateItemRequest {
+  string id = 1;
+  string item_category = 2;
+  string item_description = 3;
+  optional string item_image = 4;
+  string item_title = 5;
+}
+
+message DeleteItemRequest {
+  string id = 1;
+}
+
+message MulItemsRequest {
+  repeated string ids = 1;
+}
+
+message GetItemByIdRequest {
+  string id = 1;
+}
+
+service ItemService {
+  rpc GetAllItems(EmptyRequest) returns (Items);
+  rpc GetMultipleItems(MulItemsRequest) returns (Items);
+  rpc CreateItem(CreateItemRequest) returns (sucessResponse);
+  rpc UpdateItem(UpdateItemRequest) returns (sucessResponse);
+  rpc DeleteItem(DeleteItemRequest) returns (sucessResponse);
+  rpc GetItemById(GetItemByIdRequest) returns (Item);
+}
