@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     gcc \
+    bash \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -11,6 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 5000 50052
 
 CMD ["python", "-m", "flask", "--app", "__init__:create_app", "run", "--host=0.0.0.0"]

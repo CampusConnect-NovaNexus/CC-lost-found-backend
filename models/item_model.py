@@ -1,5 +1,6 @@
 import uuid
-from .. import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 class Item(db.Model):
     __tablename__ = 'items'
