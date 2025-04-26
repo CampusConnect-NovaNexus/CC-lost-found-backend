@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from backend.services.grpc import a_pb2 as backend_dot_services_dot_grpc_dot_a__pb2
+from . import a_pb2 as grpc_dot_a__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in backend/services/grpc/a_pb2_grpc.py depends on'
+        + f' but the generated code in grpc/a_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,23 +36,23 @@ class AuthServiceStub(object):
         """
         self.Login = channel.unary_unary(
                 '/AuthService/Login',
-                request_serializer=backend_dot_services_dot_grpc_dot_a__pb2.LoginRequest.SerializeToString,
-                response_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+                request_serializer=grpc_dot_a__pb2.LoginRequest.SerializeToString,
+                response_deserializer=grpc_dot_a__pb2.Tokens.FromString,
                 _registered_method=True)
         self.Register = channel.unary_unary(
                 '/AuthService/Register',
-                request_serializer=backend_dot_services_dot_grpc_dot_a__pb2.RegisterRequest.SerializeToString,
-                response_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+                request_serializer=grpc_dot_a__pb2.RegisterRequest.SerializeToString,
+                response_deserializer=grpc_dot_a__pb2.Tokens.FromString,
                 _registered_method=True)
         self.ValidateToken = channel.unary_unary(
                 '/AuthService/ValidateToken',
-                request_serializer=backend_dot_services_dot_grpc_dot_a__pb2.Token.SerializeToString,
-                response_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.ValidationResponse.FromString,
+                request_serializer=grpc_dot_a__pb2.Token.SerializeToString,
+                response_deserializer=grpc_dot_a__pb2.ValidationResponse.FromString,
                 _registered_method=True)
         self.RefreshToken = channel.unary_unary(
                 '/AuthService/RefreshToken',
-                request_serializer=backend_dot_services_dot_grpc_dot_a__pb2.Token.SerializeToString,
-                response_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+                request_serializer=grpc_dot_a__pb2.Token.SerializeToString,
+                response_deserializer=grpc_dot_a__pb2.Tokens.FromString,
                 _registered_method=True)
 
 
@@ -88,23 +88,23 @@ def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
-                    request_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.LoginRequest.FromString,
-                    response_serializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.SerializeToString,
+                    request_deserializer=grpc_dot_a__pb2.LoginRequest.FromString,
+                    response_serializer=grpc_dot_a__pb2.Tokens.SerializeToString,
             ),
             'Register': grpc.unary_unary_rpc_method_handler(
                     servicer.Register,
-                    request_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.RegisterRequest.FromString,
-                    response_serializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.SerializeToString,
+                    request_deserializer=grpc_dot_a__pb2.RegisterRequest.FromString,
+                    response_serializer=grpc_dot_a__pb2.Tokens.SerializeToString,
             ),
             'ValidateToken': grpc.unary_unary_rpc_method_handler(
                     servicer.ValidateToken,
-                    request_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.Token.FromString,
-                    response_serializer=backend_dot_services_dot_grpc_dot_a__pb2.ValidationResponse.SerializeToString,
+                    request_deserializer=grpc_dot_a__pb2.Token.FromString,
+                    response_serializer=grpc_dot_a__pb2.ValidationResponse.SerializeToString,
             ),
             'RefreshToken': grpc.unary_unary_rpc_method_handler(
                     servicer.RefreshToken,
-                    request_deserializer=backend_dot_services_dot_grpc_dot_a__pb2.Token.FromString,
-                    response_serializer=backend_dot_services_dot_grpc_dot_a__pb2.Tokens.SerializeToString,
+                    request_deserializer=grpc_dot_a__pb2.Token.FromString,
+                    response_serializer=grpc_dot_a__pb2.Tokens.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -132,8 +132,8 @@ class AuthService(object):
             request,
             target,
             '/AuthService/Login',
-            backend_dot_services_dot_grpc_dot_a__pb2.LoginRequest.SerializeToString,
-            backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+            grpc_dot_a__pb2.LoginRequest.SerializeToString,
+            grpc_dot_a__pb2.Tokens.FromString,
             options,
             channel_credentials,
             insecure,
@@ -159,8 +159,8 @@ class AuthService(object):
             request,
             target,
             '/AuthService/Register',
-            backend_dot_services_dot_grpc_dot_a__pb2.RegisterRequest.SerializeToString,
-            backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+            grpc_dot_a__pb2.RegisterRequest.SerializeToString,
+            grpc_dot_a__pb2.Tokens.FromString,
             options,
             channel_credentials,
             insecure,
@@ -186,8 +186,8 @@ class AuthService(object):
             request,
             target,
             '/AuthService/ValidateToken',
-            backend_dot_services_dot_grpc_dot_a__pb2.Token.SerializeToString,
-            backend_dot_services_dot_grpc_dot_a__pb2.ValidationResponse.FromString,
+            grpc_dot_a__pb2.Token.SerializeToString,
+            grpc_dot_a__pb2.ValidationResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -213,8 +213,8 @@ class AuthService(object):
             request,
             target,
             '/AuthService/RefreshToken',
-            backend_dot_services_dot_grpc_dot_a__pb2.Token.SerializeToString,
-            backend_dot_services_dot_grpc_dot_a__pb2.Tokens.FromString,
+            grpc_dot_a__pb2.Token.SerializeToString,
+            grpc_dot_a__pb2.Tokens.FromString,
             options,
             channel_credentials,
             insecure,
