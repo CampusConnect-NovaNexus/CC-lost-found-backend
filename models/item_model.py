@@ -8,7 +8,7 @@ class Item(db.Model):
     item_description = db.Column(db.String(200), nullable=False)
     item_image = db.Column(db.String(200), nullable=True)
     item_category = db.Column(db.Enum('LOST', 'FOUND', name='item_category'), nullable=False)
-    user_id = db.Column(db.String(36), db.ForeignKey('users._id'), nullable=False)
+    user_id = db.Column(db.String(36), nullable=False)
 
     def __init__(self, item_title, item_description, user_id, item_image=None, item_category='FOUND'):
         self.item_title = item_title
@@ -24,8 +24,7 @@ class Item(db.Model):
             "item_description": self.item_description,
             "item_image": self.item_image,
             "item_category": self.item_category,
-            "user_id": self.user_id,
-            "user": self.owner.json() if self.owner else None
+            "user_id": self.user_id
         }
 
 

@@ -1,12 +1,11 @@
-from flask import jsonify, session
+from flask import g, jsonify
 from .. import db
 from ..models.item_model import Item
-from sqlalchemy.orm import joinedload
 from ..services.image_upload_service import image_upload
 
 def get_all_items():
     try:
-        items = db.session.query(Item).options(joinedload(Item.owner)).all()
+        items = db.session.query(Item).all()
         return jsonify([item.json() for item in items]), 200
     except Exception as e:
         db.session.rollback()
@@ -15,7 +14,7 @@ def get_all_items():
 
 def get_item(item_id):
     try:
-        item = db.session.query(Item).options(joinedload(Item.owner)).filter_by(_id=item_id).first()
+        item = db.session.query(Item).filter_by(_id=item_id).first()
         if not item:
             return jsonify({"error": "Item not found"}), 404
         return jsonify(item.json()), 200
@@ -26,7 +25,7 @@ def get_item(item_id):
 
 def get_multiple_items(item_ids):
     try:
-        items = db.session.query(Item).options(joinedload(Item.owner)).filter(Item._id.in_(item_ids)).all()
+        items = db.session.query(Item).filter(Item._id.in_(item_ids)).all()
         if not items:
             return jsonify({"error": "Items not found"}), 404
         return jsonify([item.json() for item in items]), 200
@@ -40,6 +39,8 @@ def create_item(data):
     description = data.get('description')
     image_file = data.get('image_file')  # This should be the file object from request.files
     user_id = data.get('user_id')
+    if not user_id:
+        return {"error": "User ID is required"}, 400
     item_category = data.get('item_category')
     
     image_url = None

@@ -20,21 +20,21 @@ def create_app():
     db.init_app(app)
     
     # Import models to ensure they are registered with SQLAlchemy
-    from .models.user_model import Users
+    # from .models.user_model import Users
     from .models.item_model import Item
     
     # Import and register blueprints
     from .routes.item_routes import item_bp
-    from .routes.user_routes import user_bp
-    from .routes.auth_routes import auth_bp
+    # from .routes.user_routes import user_bp
+    # from .routes.auth_routes import auth_bp
     from .routes.ai_routes import ai_routes_bp
     from .routes.image_upload_routes import image_upload_bp
 
     migrate.init_app(app, db)
 
-    app.register_blueprint(user_bp, url_prefix='/api/v1/user')
+    # app.register_blueprint(user_bp, url_prefix='/api/v1/user')
     app.register_blueprint(item_bp, url_prefix='/api/v1/item')
-    app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
+    # app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(ai_routes_bp, url_prefix='/api/v1/ai')
     app.register_blueprint(image_upload_bp, url_prefix='/api/v1/upload')
 
