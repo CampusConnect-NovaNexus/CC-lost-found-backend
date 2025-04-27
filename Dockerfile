@@ -12,6 +12,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# Create startup script
+RUN echo '#!/bin/bash\n\
+python -m grpc_server.main_server & \n\
+python -m flask --app "__init__:create_app" run --host=0.0.0.0\n'\
+> /app/start.sh && chmod +x /app/start.sh
+
 EXPOSE 5000 50052
 
-CMD ["python", "-m", "flask", "--app", "__init__:create_app", "run", "--host=0.0.0.0"]
+# Use the startup script to run both services
+CMD ["/bin/bash", "/app/start.sh"]

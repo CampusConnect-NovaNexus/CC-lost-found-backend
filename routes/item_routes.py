@@ -20,7 +20,10 @@ def before_request():
             return {"error": "Invalid token"}, 401
     except Exception as e:
         print("Error validating token:", e)
-        return {"error": "Error validating token"}, 401
+        return jsonify({
+            "error": "gRPC call failed",
+            "details": str(e)
+        }), 401
     
     payload = jwt.decode(token, options={"verify_signature": False})
     if not payload:
