@@ -1,4 +1,4 @@
-from flask import g, Blueprint, request
+from flask import g, Blueprint, request, jsonify
 from ..services.item_service import *
 from ..grpc_client.grpc_fns import validate_token
 import jwt
@@ -33,7 +33,16 @@ def before_request():
 
 @item_bp.route('/', methods=['GET'])
 def get_item_list_view():
-    return get_all_items()
+    # Get pagination parameters from query string
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    category = request.args.get('category', None, type=str)
+    
+    # Limit per_page to prevent performance issues
+    if per_page > 50:
+        per_page = 50
+        
+    return get_all_items(page=page, per_page=per_page, category=category)
     
 @item_bp.route('/getItems', methods=['POST'])
 def get_multiple_items_view():
