@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from models.user_model import Users
+from services.notification_service import register_device
 import traceback
 
 def login_user(data):
@@ -37,13 +38,29 @@ def login_user(data):
         
         current_app.logger.info(f"Login successful for user: {user.username}")
         
+        # Handle push notification token if provided
+        expo_token = data.get('expo_token')
+        platform = data.get('platform')
+        
+        device_info = None
+        if expo_token and platform:
+            device_result, status_code = register_device(user._id, expo_token, platform)
+            if status_code < 300:  # If successful
+                device_info = device_result
+        
         # Return tokens and user data
-        return {
+        response = {
             'message': 'Login successful',
             'access_token': access_token,
             'refresh_token': refresh_token,
             'user': user.json()
-        }, 200
+        }
+        
+        # Add device info if available
+        if device_info:
+            response['device'] = device_info
+            
+        return response, 200
         
     except Exception as e:
         error_trace = traceback.format_exc()

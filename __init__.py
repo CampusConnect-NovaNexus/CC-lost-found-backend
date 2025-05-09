@@ -22,12 +22,14 @@ def create_app():
     # Import models to ensure they are registered with SQLAlchemy
     from models.user_model import Users
     from models.item_model import Item
+    from models.device_model import Devices
     
     # Import and register blueprints
     from routes.item_routes import item_bp
     from routes.user_routes import user_bp
     from routes.auth_routes import auth_bp
     from routes.ai_routes import ai_routes_bp
+    from routes.notification_routes import notification_bp
 
     migrate.init_app(app, db)
 
@@ -35,6 +37,7 @@ def create_app():
     app.register_blueprint(item_bp, url_prefix='/api/v1/item')
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(ai_routes_bp, url_prefix='/api/v1/ai')
+    app.register_blueprint(notification_bp, url_prefix='/api/v1/notification')
 
     # Create tables on app startup if they don't exist
     with app.app_context():
