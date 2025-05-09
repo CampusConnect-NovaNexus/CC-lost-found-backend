@@ -1,11 +1,33 @@
-from flask import jsonify, session
-from __init__ import db
-from models.item_model import Item
+from flask import g, jsonify, request
+from .. import db
+from ..models.item_model import Item
+from ..services.image_upload_service import image_upload
 
-def get_all_items():
+def get_all_items(page=1, per_page=10, category=None):
     try:
-        items = db.session.query(Item).all()
-        return jsonify([item.json() for item in items]), 200
+        query = db.session.query(Item)
+        
+        # Filter by category if provided
+        if category:
+            query = query.filter_by(item_category=category)
+        
+        # Apply pagination
+        total_items = query.count()
+        items = query.order_by(Item._id.desc()).paginate(page=page, per_page=per_page, error_out=False)
+        
+        result = {
+            "items": [item.json() for item in items.items],
+            "pagination": {
+                "total_items": total_items,
+                "total_pages": items.pages,
+                "current_page": items.page,
+                "per_page": per_page,
+                "has_next": items.has_next,
+                "has_prev": items.has_prev
+            }
+        }
+        
+        return jsonify(result), 200
     except Exception as e:
         db.session.rollback()
         error = str(e.__dict__['orig']) if hasattr(e, '__dict__') and 'orig' in e.__dict__ else str(e)
@@ -36,13 +58,32 @@ def get_multiple_items(item_ids):
 def create_item(data):
     title = data.get('title')
     description = data.get('description')
-    image = data.get('image')
-
+    image_file = data.get('image_file')  # This should be the file object from request.files
+    user_id = data.get('user_id')
+    if not user_id:
+        return {"error": "User ID is required"}, 400
+    item_category = data.get('item_category')
+    
+    image_url = None
+    # Handle image upload if image file is provided
+    if image_file:
+        filename = f"{user_id}_{title}_{image_file.filename}"
+        upload_response = image_upload(image_file, filename)
+        if upload_response:
+            # Extract the URL from the ImageKit response
+            image_url = upload_response.get('url')
+    
     try:
-        new_item = Item(item_title=title, item_description=description, item_image=image)
+        new_item = Item(
+            item_title=title, 
+            item_description=description, 
+            user_id=user_id, 
+            item_image=image_url,  # Store the image URL from upload
+            item_category=item_category
+        )
         db.session.add(new_item)
         db.session.commit()
-        return {"status": "Item created successfully", "item_id": new_item._id}, 201
+        return {"status": "Item created successfully", "item_id": new_item._id, "image_url": image_url}, 201
     except Exception as e:
         db.session.rollback()
         error = str(e.__dict__['orig']) if hasattr(e, '__dict__') and 'orig' in e.__dict__ else str(e)
@@ -53,6 +94,7 @@ def update_item(data):
     title = data.get('title')
     description = data.get('description')
     image = data.get('image')
+    user_id = data.get('user_id')
 
     try:
         item = db.session.query(Item).filter_by(_id=_id).first()
@@ -65,6 +107,8 @@ def update_item(data):
             item.item_description = description
         if image:
             item.item_image = image
+        if user_id:
+            item.user_id = user_id
 
         db.session.commit()
         return {"status": "Item updated successfully"}, 200

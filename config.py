@@ -10,3 +10,4 @@ class Config:
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)  # 30 days
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')  # Fixed variable name
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    GRPC_SERVER = os.getenv('GRPC_SERVER')
