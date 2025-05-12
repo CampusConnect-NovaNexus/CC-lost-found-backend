@@ -22,14 +22,14 @@ def create_app():
     # Import models to ensure they are registered with SQLAlchemy
     # from .models.user_model import Users
     from .models.item_model import Item
-    from models.device_model import Devices
+    # from .models.device_model import Devices
     
     # Import and register blueprints
     from .routes.item_routes import item_bp
     # from .routes.user_routes import user_bp
     # from .routes.auth_routes import auth_bp
     from .routes.ai_routes import ai_routes_bp
-    from routes.notification_routes import notification_bp
+    # from .routes.notification_routes import notification_bp
     from .routes.image_upload_routes import image_upload_bp
 
     migrate.init_app(app, db)
