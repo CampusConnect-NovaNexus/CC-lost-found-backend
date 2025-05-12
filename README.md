@@ -1,13 +1,16 @@
-# CampusConnect Lost and Found Service
+# Lost and Found Service - CampusConnect
 
 This service handles the lost and found functionality of the CampusConnect platform, allowing users to report lost items or items they have found on campus.
 
 ## Technologies
-- Python
-- Flask
-- SQLAlchemy
-- gRPC
-- Image processing and AI features
+- Python 3.x
+- Flask (Web Framework)
+- SQLAlchemy ORM
+- PostgreSQL Database
+- gRPC for inter-service communication
+- AI-powered similarity search
+- Docker for containerization
+- Image processing and storage
 
 ## Project Structure
 ```
