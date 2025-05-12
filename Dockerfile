@@ -15,7 +15,7 @@ COPY . .
 # Create startup script
 RUN echo '#!/bin/bash\n\
 python -m grpc_server.main_server & \n\
-python -m flask --app "__init__:create_app" run --host=0.0.0.0 --port=6000\n'\
+flask --app "__init__:create_app" run --host=0.0.0.0 --port=6000\n'\
 > /app/start.sh && chmod +x /app/start.sh
 
 EXPOSE 6000 50052
