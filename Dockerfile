@@ -29,13 +29,8 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Copy application code
 COPY . .
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-python -m grpc_server.main_server & \n\
-flask --app "__init__:create_app" run --host=0.0.0.0 --port=2000\n'\
-> /app/start.sh && chmod +x /app/start.sh
+# Expose only the Flask port
+EXPOSE 2000
 
-EXPOSE 2000 50052
-
-# Use the startup script to run both services
-CMD ["/bin/bash", "/app/start.sh"]
+# Run Flask directly without any script
+CMD ["flask", "--app", "__init__:create_app", "run", "--host=0.0.0.0", "--port=2000"]
